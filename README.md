@@ -1,12 +1,9 @@
 <div align="center"> 
+    
+# 🖥🐺 YozoraWolf's Server Status Check - Alexa Skill</h1>
 
-
-<div style="font-size: 60px;">🖥🐺</div>
-
-# YozoraWolf's Server Status Check - Alexa Skill
 
 </div>
-
 
 Welcome to YozoraWolf's Server Status Check Repo! 
 
