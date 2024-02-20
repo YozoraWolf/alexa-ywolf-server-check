@@ -34,13 +34,23 @@ const CheckServerStatusIntent = {
 
 
     // TODO: Add slot logic.
-    const server = servers[0];
-    const isRunning = await isServerRunning(server.proc_name);
+    let sv = Alexa.getSlotValue(handlerInput.requestEnvelope, 'server');
+    sv = servers.find(e => e.server === sv.toLowerCase());
 
-    const speechText = `The server is ${isRunning ? 'running' : 'not running'}`;
+    if(!sv) {
+      return handlerInput.responseBuilder
+        .speak('I could not find the server you are looking for, please try again later.')
+        .withShouldEndSession(true)
+        .getResponse();
+    }
+
+    const isRunning = await isServerRunning(sv.proc_name);
+
+    const speechText = `The ${sv.server} server is ${isRunning ? 'running' : 'not running'}`;
 
     return handlerInput.responseBuilder
       .speak(speechText)
+      .withShouldEndSession(true)
       .getResponse();
   }
 };
