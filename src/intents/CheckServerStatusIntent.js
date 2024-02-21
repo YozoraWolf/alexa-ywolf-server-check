@@ -1,28 +1,8 @@
 const Alexa = require('ask-sdk-core');
 const util = require('util');
-const exec = util.promisify(require('child_process').exec);
-const servers = require('../data/servers.json');
+const { isServerRunning, getServer } = require("@src/sv_utils");
 
 // Util
-
-const filterOutGrepLines = (stdout) => {
-  return stdout.split('\n').filter(line => 
-    !line.includes('grep') && 
-    !line.includes('SCREEN') &&
-    line.length > 0);
-}
-
-const isServerRunning = async (server) => {
-  try {
-    // Sanatized not needed as we are using a predefined list of servers.
-    const { stdout, stderr } = await exec(`ps aux | grep '${server}'`);
-    // If there are any lines in the stdout then the server is running, else not.
-    return filterOutGrepLines(stdout).length > 0 ? true : false;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
 
 
 const CheckServerStatusIntent = {
@@ -32,10 +12,7 @@ const CheckServerStatusIntent = {
   },
   async handle(handlerInput) {
 
-
-    // TODO: Add slot logic.
-    let sv = Alexa.getSlotValue(handlerInput.requestEnvelope, 'server');
-    sv = servers.find(e => e.server === sv.toLowerCase());
+    const sv = getServer(handlerInput);
 
     if(!sv) {
       return handlerInput.responseBuilder
@@ -46,7 +23,7 @@ const CheckServerStatusIntent = {
 
     const isRunning = await isServerRunning(sv.proc_name);
 
-    const speechText = `The ${sv.server} server is ${isRunning ? 'running' : 'not running'}`;
+    const speechText = `The ${sv.name} server is ${isRunning ? 'running' : 'not running'}`;
 
     return handlerInput.responseBuilder
       .speak(speechText)
