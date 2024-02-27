@@ -7,7 +7,7 @@ const LaunchRequest = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = `Welcome to wolf's server check skill!`;
+        const speakOutput = `Welcome to wolf's server management skill!`;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)

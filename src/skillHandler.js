@@ -8,7 +8,7 @@ const { LaunchRequest,
 } = require('@intents/AmazonIntents');
 const CheckServerStatusIntent = require('@intents/CheckServerStatusIntent');
 const { TurnOnServerIntent, TurnOffServerIntent } = require('@intents/TurnOnOffIntent');
-
+const { UpdateServerIntent } = require('@intents/UpdateServerIntent');
 
 module.exports = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
@@ -17,6 +17,7 @@ module.exports = Alexa.SkillBuilders.custom()
         CheckServerStatusIntent,
         TurnOnServerIntent,
         TurnOffServerIntent,
+        UpdateServerIntent,
         SessionEndedRequest,
         HelpIntent,
         CancelAndStopIntentHandler,
